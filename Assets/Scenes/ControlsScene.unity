@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef3aea670f949f6b167cb9a76c87da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: {fileID: 11400000, guid: bc538893bcd46485f88d6588caf299e7, type: 2}
   move: {fileID: 11400000, guid: ceb572f5a5913448aa84e8bd12c91b0c, type: 2}
   look: {fileID: 11400000, guid: 36ae79bbd575b43329f36e6ab3327486, type: 2}
 --- !u!1 &963194225
