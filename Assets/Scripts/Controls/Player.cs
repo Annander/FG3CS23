@@ -1,4 +1,3 @@
-using System;
 using Systemics.Events;
 using Systemics.Variables;
 using UnityEngine;
@@ -9,6 +8,7 @@ namespace Controls
     public class Player : MonoBehaviour
     {
         [SerializeField] private FloatVariable moveSpeed;
+        [SerializeField] private FloatVariable turnSpeed;
         
         [SerializeField] private InputContextEvent move;
         [SerializeField] private InputContextEvent look;
@@ -33,11 +33,6 @@ namespace Controls
             _lookListener.Response -= OnLook;
         }
 
-        private void OnLook(InputAction.CallbackContext a)
-        {
-            Debug.Log("Look!");
-        }
-
         private void OnMove(InputAction.CallbackContext a)
         {
             var inputVector = a.ReadValue<Vector2>();
@@ -45,6 +40,13 @@ namespace Controls
             var transformedMoveVector = transform.TransformDirection(worldVector.normalized);
 
             _moveVector = transformedMoveVector * moveSpeed.Value;
+        }
+
+        private void OnLook(InputAction.CallbackContext a)
+        {
+            var inputVector = a.ReadValue<Vector2>();
+            var rotation = (inputVector.x * turnSpeed.Value) * Time.deltaTime;
+            transform.Rotate(Vector3.up, rotation);
         }
 
         private void Update()
