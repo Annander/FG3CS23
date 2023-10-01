@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6c8e089d5774bce8ffd94b6cc5a9ba, type: 3}
   m_Name: Player_TurnSpeed
   m_EditorClassIdentifier: 
-  value: 100
+  value: 50

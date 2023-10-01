@@ -1,4 +1,3 @@
-using System;
 using Systemics.Events;
 using Systemics.Variables;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Camera
 {
-    public class Camera : MonoBehaviour
+    public class PlayerCamera : MonoBehaviour
     {
         [SerializeField] private FloatVariable lookSpeed;
         
@@ -17,17 +16,22 @@ namespace Camera
         [SerializeField] private Transform target;
 
         private Transform _noiseTransform;
+
+        private Transform _transform;
         
         private Quaternion _origin;
 
         private InputContextListener _lookListener;
+
+        private float _yLookInput;
         
-        private float _yLook;
+        private float _yLook = 0f;
 
         private void Awake()
         {
-            _noiseTransform = transform.parent;
-            _origin = transform.localRotation;
+            _transform = transform;
+            _noiseTransform = _transform.parent;
+            _origin = _transform.localRotation;
         }
 
         private void OnEnable()
@@ -43,26 +47,23 @@ namespace Camera
 
         private void Update()
         {
-            if (_yLook > lookLimits.Value.x && _yLook < lookLimits.Value.y)
-            {
-                transform.localRotation = Quaternion.AngleAxis(-_yLook, Vector3.right) * _origin;
-            }
+            _yLook += _yLookInput * lookSpeed.Value;
+            _yLook = Mathf.Clamp(_yLook, lookLimits.Value.x, lookLimits.Value.y);
+            _transform.localRotation = Quaternion.AngleAxis(-_yLook, Vector3.right) * _origin;
         }
 
         private void LateUpdate()
         {
             if (target != null)
             {
-                transform.forward = (target.position - transform.position).normalized;
+                _transform.forward = (target.position - transform.position).normalized;
             }
         }
 
         private void OnLook(InputAction.CallbackContext a)
         {
             var lookVector = a.ReadValue<Vector2>();
-            
-            _yLook += (lookVector.y * lookSpeed.Value) * Time.deltaTime;
-            _yLook = Mathf.Clamp(_yLook, lookLimits.Value.x, lookLimits.Value.y);
+            _yLookInput = lookVector.y;
         }
     }
 }

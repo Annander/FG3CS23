@@ -18,6 +18,15 @@ namespace Controls
 
         private Vector3 _moveVector;
 
+        private float _rotation;
+
+        private Transform _transform;
+
+        private void Awake()
+        {
+            _transform = transform;
+        }
+
         private void OnEnable()
         {
             _moveListener ??= new InputContextListener(move);
@@ -36,17 +45,16 @@ namespace Controls
         private void OnMove(InputAction.CallbackContext a)
         {
             var inputVector = a.ReadValue<Vector2>();
-            var worldVector = new Vector3(inputVector.x, 0, inputVector.y);
-            var transformedMoveVector = transform.TransformDirection(worldVector.normalized);
-
-            _moveVector = transformedMoveVector * moveSpeed.Value;
+            
+            _moveVector.x = inputVector.x;
+            _moveVector.y = 0;
+            _moveVector.z = inputVector.y;
         }
 
         private void OnLook(InputAction.CallbackContext a)
         {
             var inputVector = a.ReadValue<Vector2>();
-            var rotation = (inputVector.x * turnSpeed.Value) * Time.deltaTime;
-            transform.Rotate(Vector3.up, rotation);
+            _rotation = inputVector.x * turnSpeed.Value;
         }
 
         private void Update()
@@ -54,11 +62,18 @@ namespace Controls
             var deltaTime = Time.deltaTime;
             
             HandleMovement(deltaTime);
+            HandleRotation(deltaTime);
         }
 
         private void HandleMovement(float deltaTime)
         {
-            transform.position += _moveVector * deltaTime;
+            var transformedMoveVector = transform.TransformDirection(_moveVector.normalized) * moveSpeed.Value;
+            _transform.position += transformedMoveVector * deltaTime;
+        }
+        
+        private void HandleRotation(float deltaTime)
+        {
+            transform.Rotate(Vector3.up, _rotation * deltaTime);
         }
     }
 }

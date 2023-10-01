@@ -22,12 +22,18 @@ namespace Controls
             
             BindKey("Move", OnMove);
             BindKey("Look", OnLook);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         private void OnDisable()
         {
             BindKey("Move", OnMove, false);
-            BindKey("Look", OnLook, false);   
+            BindKey("Look", OnLook, false);
+            
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         private void OnMove(InputAction.CallbackContext obj) => move.Raise(obj);
