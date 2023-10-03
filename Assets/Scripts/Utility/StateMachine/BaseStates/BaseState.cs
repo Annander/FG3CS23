@@ -14,9 +14,6 @@ namespace Utility.StateMachine.BaseStates
         public virtual void OnExit()
         {}
 
-        public virtual void OnUndo()
-        {}
-
         public virtual StateReturn OnUpdate()
         {
             return StateReturn.Completed;

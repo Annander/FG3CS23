@@ -4,14 +4,12 @@ namespace Utility.StateMachine
     {
         public bool HasEntered { get; }
 
-        public StateReturn OnUpdate();
-
         public void OnEnter();
+        
+        public StateReturn OnUpdate();
 
         public void OnExit();
 
-        public void OnUndo();
-
         public void OnDrawGizmos();
-    };
+    }
 }

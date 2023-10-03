@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Systemics
 {
-    [CreateAssetMenu(fileName = "New Game Event", menuName = "Systemics/Events/Game Event")]
+    [CreateAssetMenu(fileName = "New Game Event", menuName = "Events/Game Event")]
     public class GameEvent : ScriptableObject
     {
         private readonly List<GameEventListener> _listeners = new List<GameEventListener>();

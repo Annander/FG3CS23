@@ -310,13 +310,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 623562168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ef3aea670f949f6b167cb9a76c87da1, type: 3}
+  m_Script: {fileID: 11500000, guid: 20322c87ee75dcb47b5c8c805fdf2e53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: {fileID: 11400000, guid: bc538893bcd46485f88d6588caf299e7, type: 2}
-  turnSpeed: {fileID: 11400000, guid: 7fa873fd6051a4034a16fdff8780217a, type: 2}
-  move: {fileID: 11400000, guid: ceb572f5a5913448aa84e8bd12c91b0c, type: 2}
-  look: {fileID: 11400000, guid: 36ae79bbd575b43329f36e6ab3327486, type: 2}
+  actions:
+  - {fileID: 11400000, guid: 81d4ae5fc73d33443be55822457f0681, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

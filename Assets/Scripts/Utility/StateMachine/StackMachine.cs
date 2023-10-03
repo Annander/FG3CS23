@@ -6,13 +6,13 @@ namespace Utility.StateMachine
 	/// <summary>
 	/// A stack-based state machine in very simple form.
 	/// </summary>
-	public sealed class StackMachine : MonoBehaviour
+	public sealed class StackMachine
 	{
 		public const string NOSTATE = "None";
 
 		private readonly Stack<IState> _stack = new();
 
-		private void Update()
+		public void Update()
 		{
 			if (_stack.Count > 0)
 			{
@@ -88,9 +88,9 @@ namespace Utility.StateMachine
 			}
 		}
 
-		private void OnDrawGizmosSelected()
+		public void OnDrawGizmosSelected(Vector3 position)
 		{
-			UnityEditor.Handles.Label(transform.position, CurrentState);
+			UnityEditor.Handles.Label(position, CurrentState);
 		}
 #endif
 	}

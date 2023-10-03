@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Controls
 {
-    public class Player : MonoBehaviour
+    public class SimplePlayer : MonoBehaviour
     {
         [SerializeField] private FloatVariable moveSpeed;
         [SerializeField] private FloatVariable turnSpeed;
@@ -54,7 +54,7 @@ namespace Controls
         private void OnLook(InputAction.CallbackContext a)
         {
             var inputVector = a.ReadValue<Vector2>();
-            _rotation = inputVector.x * turnSpeed.Value;
+            _rotation = inputVector.x;
         }
 
         private void Update()
@@ -73,7 +73,7 @@ namespace Controls
         
         private void HandleRotation(float deltaTime)
         {
-            transform.Rotate(Vector3.up, _rotation * deltaTime);
+            transform.Rotate(Vector3.up, (_rotation * turnSpeed.Value) * deltaTime);
         }
     }
 }

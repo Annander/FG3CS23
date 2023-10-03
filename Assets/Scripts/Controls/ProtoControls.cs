@@ -36,8 +36,9 @@ namespace Controls
             Cursor.visible = true;
         }
 
-        private void OnMove(InputAction.CallbackContext obj) => move.Raise(obj);
-        private void OnLook(InputAction.CallbackContext obj) => look.Raise(obj);
+        private void OnMove(InputAction.CallbackContext context) => move.Raise(context);
+        
+        private void OnLook(InputAction.CallbackContext context) => look.Raise(context);
 
         private void BindKey(string action, Action<InputAction.CallbackContext> method, bool add = true)
         {
