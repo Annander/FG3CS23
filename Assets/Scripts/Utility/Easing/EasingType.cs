@@ -1,6 +1,6 @@
 namespace Utility.Easing
 {
-    public enum Type
+    public enum EasingType
     {
         SineIn,
         SineOut,
@@ -23,9 +23,9 @@ namespace Utility.Easing
         CircularIn,
         CircularOut,
         CircularInOut,
-        BackbounceIn,
-        BackbounceOut,
-        BackbounceInOut,
+        BackBounceIn,
+        BackBounceOut,
+        BackBounceInOut,
         ElasticIn,
         ElasticOut,
         ElasticInOut,

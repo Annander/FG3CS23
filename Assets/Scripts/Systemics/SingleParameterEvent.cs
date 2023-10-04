@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace Systemics
 {
-    public class SingleParameterEvent<T> : ScriptableObject, ISerializationCallbackReceiver
+    public class SingleParameterEvent<T> : ScriptableObject, 
+        ISerializationCallbackReceiver
     {
-        private readonly List<SingleParameterListener<T>> _listeners = new List<SingleParameterListener<T>>();
+        private readonly List<SingleParameterListener<T>> _listeners = new();
 
         public void OnAfterDeserialize()
         {

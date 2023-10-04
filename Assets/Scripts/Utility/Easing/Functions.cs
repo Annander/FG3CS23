@@ -4,112 +4,150 @@ namespace Utility.Easing
 {
     public class Functions
     {
-        public static float Sine_In(float x)
+        public static float GetEaseValue(EasingType easingType, float x)
+        {
+            switch(easingType) 
+            {
+                case EasingType.SineIn: return Sine_In(x);
+                case EasingType.SineOut: return Sine_Out(x);
+                case EasingType.SineInOut: return Sine_InOut(x);
+                case EasingType.QuadIn: return Quad_In(x);
+                case EasingType.QuadOut: return Quad_Out(x);
+                case EasingType.QuadInOut: return Quad_InOut(x);
+                case EasingType.CubeIn: return Cubic_In(x);
+                case EasingType.CubeOut: return Cubic_Out(x);
+                case EasingType.CubeInOut: return Cubic_InOut(x);
+                case EasingType.QuartIn: return Quart_In(x);
+                case EasingType.QuartOut: return Quart_Out(x);
+                case EasingType.QuartInOut: return Quart_InOut(x);
+                case EasingType.QuintIn: return Quint_In(x);
+                case EasingType.QuintOut: return Quint_Out(x);
+                case EasingType.QuintInOut: return Quint_InOut(x);
+                case EasingType.ExponentialIn: return Expo_In(x);
+                case EasingType.ExponentialOut: return Expo_Out(x);
+                case EasingType.ExponentialInOut: return Expo_InOut(x);
+                case EasingType.CircularIn: return Circ_In(x);
+                case EasingType.CircularOut: return Circ_Out(x);
+                case EasingType.CircularInOut: return Circ_InOut(x);
+                case EasingType.BackBounceIn: return Back_In(x);
+                case EasingType.BackBounceOut: return Back_Out(x);
+                case EasingType.BackBounceInOut: return Back_InOut(x);
+                case EasingType.ElasticIn: return Elastic_In(x);
+                case EasingType.ElasticOut: return Elastic_Out(x);
+                case EasingType.ElasticInOut: return Elastic_InOut(x);
+                case EasingType.BounceIn: return Bounce_In(x);
+                case EasingType.BounceOut: return Bounce_Out(x);
+                case EasingType.BounceInOut: return Bounce_InOut(x);
+                default: return x;
+            }
+        }        
+        
+        private static float Sine_In(float x)
         {
             return 1f - Mathf.Cos((x * Mathf.PI) / 2);
         }
 
-        public static float Sine_Out(float x)
+        private static float Sine_Out(float x)
         {
             return Mathf.Sin((x * Mathf.PI) / 2);
         }
 
-        public static float Sine_InOut(float x)
+        private static float Sine_InOut(float x)
         {
             return -(Mathf.Cos(Mathf.PI * x) - 1) / 2;
         }
 
-        public static float Quad_In(float x)
+        private static float Quad_In(float x)
         {
             return x * x;
         }
 
-        public static float Quad_Out(float x)
+        private static float Quad_Out(float x)
         {
             return 1 - (1 - x) * (1 - x);
         }
 
-        public static float Quad_InOut(float x)
+        private static float Quad_InOut(float x)
         {
-            return x < 0.5 ? 2 * x * x : 1 - Mathf.Pow(-2 * x + 2, 2) / 2;
+            return x < .5f ? 2 * x * x : 1 - Mathf.Pow(-2 * x + 2, 2) / 2;
         }
 
-        public static float Cubic_In(float x)
+        private static float Cubic_In(float x)
         {
             return x * x * x;
         }
 
-        public static float Cubic_Out(float x)
+        private static float Cubic_Out(float x)
         {
             return 1 - Mathf.Pow(1 - x, 3);
         }
 
-        public static float Cubic_InOut(float x)
+        private static float Cubic_InOut(float x)
         {
-            return x < 0.5 ? 4 * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 3) / 2;
+            return x < .5f ? 4 * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 3) / 2;
         }
 
-        public static float Quart_In(float x)
+        private static float Quart_In(float x)
         {
             return x * x * x * x;
         }
 
-        public static float Quart_Out(float x)
+        private static float Quart_Out(float x)
         {
             return 1 - Mathf.Pow(1 - x, 4);
         }
 
-        public static float Quart_InOut(float x)
+        private static float Quart_InOut(float x)
         {
-            return x < 0.5 ? 8 * x * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 4) / 2;
+            return x < .5f ? 8 * x * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 4) / 2;
         }
 
-        public static float Quint_In(float x)
+        private static float Quint_In(float x)
         {
             return x * x * x * x * x;
         }
 
-        public static float Quint_Out(float x)
+        private static float Quint_Out(float x)
         {
             return 1 - Mathf.Pow(1 - x, 5);
         }
 
-        public static float Quint_InOut(float x)
+        private static float Quint_InOut(float x)
         {
-            return x < 0.5 ? 16 * x * x * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 5) / 2;
+            return x < .5f ? 16 * x * x * x * x * x : 1 - Mathf.Pow(-2 * x + 2, 5) / 2;
         }
 
-        public static float Expo_In(float x)
+        private static float Expo_In(float x)
         {
-            return x == 0 ? 0 : Mathf.Pow(2, 10 * x - 10);
+            return Mathf.Approximately(x, 0f) ? 0 : Mathf.Pow(2, 10 * x - 10);
         }
 
-        public static float Expo_Out(float x)
+        private static float Expo_Out(float x)
         {
             return Mathf.Approximately(x, 1f) ? 1 : 1 - Mathf.Pow(2, -10 * x);
         }
 
-        public static float Expo_InOut(float x)
+        private static float Expo_InOut(float x)
         {
             return Mathf.Approximately(x, 0f) ? 0 : Mathf.Approximately(x, 1f) ? 1 : x < 0.5 ? Mathf.Pow(2, 20 * x - 10) / 2 : (2 - Mathf.Pow(2, -20 * x + 10)) / 2;
         }
 
-        public static float Circ_In(float x)
+        private static float Circ_In(float x)
         {
             return 1 - Mathf.Sqrt(1 - Mathf.Pow(x, 2));
         }
 
-        public static float Circ_Out(float x)
+        private static float Circ_Out(float x)
         {
             return Mathf.Sqrt(1 - Mathf.Pow(x - 1, 2));
         }
 
-        public static float Circ_InOut(float x)
+        private static float Circ_InOut(float x)
         {
-            return x < 0.5 ? (1 - Mathf.Sqrt(1 - Mathf.Pow(2 * x, 2))) / 2 : (Mathf.Sqrt(1 - Mathf.Pow(-2 * x + 2, 2)) + 1) / 2;
+            return x < .5f ? (1 - Mathf.Sqrt(1 - Mathf.Pow(2 * x, 2))) / 2 : (Mathf.Sqrt(1 - Mathf.Pow(-2 * x + 2, 2)) + 1) / 2;
         }
 
-        public static float Back_In(float x)
+        private static float Back_In(float x)
         {
             const float c1 = 1.70158f;
             const float c3 = c1 + 1f;
@@ -117,7 +155,7 @@ namespace Utility.Easing
             return c3 * x * x * x - c1 * x * x;
         }
 
-        public static float Back_Out(float x)
+        private static float Back_Out(float x)
         {
             const float c1 = 1.70158f;
             const float c3 = c1 + 1;
@@ -125,28 +163,27 @@ namespace Utility.Easing
             return 1 + c3 * Mathf.Pow(x - 1, 3) + c1 * Mathf.Pow(x - 1, 2);
         }
 
-        public static float Back_InOut(float x)
+        private static float Back_InOut(float x)
         {
             const float c1 = 1.70158f;
             const float c2 = c1 * 1.525f;
 
-            return x < 0.5f ? (Mathf.Pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2 : (Mathf.Pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+            return x < .5f ? (Mathf.Pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2 : (Mathf.Pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
         }
 
-        public static float Elastic_In(float x)
+        private static float Elastic_In(float x)
         {
             const float c4 = (2 * Mathf.PI) / 3;
             return Mathf.Approximately(x, 0f) ? 0 : Mathf.Approximately(x, 1f) ? 1 : -Mathf.Pow(2, 10 * x - 10) * Mathf.Sin((x * 10 - 10.75f) * c4);
         }
 
-        public static float Elastic_Out(float x)
+        private static float Elastic_Out(float x)
         {
             const float c4 = (2 * Mathf.PI) / 3;
-
             return Mathf.Approximately(x, 0f) ? 0 : Mathf.Approximately(x, 1f) ? 1 : Mathf.Pow(2, -10 * x) * Mathf.Sin((x * 10 - 0.75f) * c4) + 1;
         }
 
-        public static float Elastic_InOut(float x)
+        private static float Elastic_InOut(float x)
         {
             const float c5 = (2 * Mathf.PI) / 4.5f;
 
@@ -154,12 +191,12 @@ namespace Utility.Easing
                 : (Mathf.Pow(2, -20 * x + 10) * Mathf.Sin((20 * x - 11.125f) * c5)) / 2 + 1;
         }
 
-        public static float Bounce_In(float x)
+        private static float Bounce_In(float x)
         {
             return 1 - Bounce_Out(1 - x);
         }
 
-        public static float Bounce_Out(float x)
+        private static float Bounce_Out(float x)
         {
             const float n1 = 7.5625f;
             const float d1 = 2.75f;
@@ -182,9 +219,9 @@ namespace Utility.Easing
             }
         }
 
-        public static float Bounce_InOut(float x)
+        private static float Bounce_InOut(float x)
         {
-            return x < 0.5f ? (1 - Bounce_Out(1 - 2 * x)) / 2 : (1 + Bounce_Out(2 * x - 1)) / 2;
+            return x < .5f ? (1 - Bounce_Out(1 - 2 * x)) / 2 : (1 + Bounce_Out(2 * x - 1)) / 2;
         }
     }
 }

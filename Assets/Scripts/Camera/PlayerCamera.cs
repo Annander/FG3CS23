@@ -1,3 +1,5 @@
+using System;
+using Controls;
 using Systemics.Events;
 using Systemics.Variables;
 using UnityEngine;
@@ -5,6 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace Camera
 {
+    [RequireComponent(typeof(Player))]
     public class PlayerCamera : MonoBehaviour
     {
         [SerializeField] private FloatVariable lookSpeed;
@@ -15,10 +18,6 @@ namespace Camera
 
         [SerializeField] private Transform target;
 
-        private Transform _noiseTransform;
-
-        private Transform _transform;
-        
         private Quaternion _origin;
 
         private InputContextListener _lookListener;
@@ -27,11 +26,16 @@ namespace Camera
         
         private float _yLook = 0f;
 
+        private Player _player;
+
         private void Awake()
         {
-            _transform = transform;
-            _noiseTransform = _transform.parent;
-            _origin = _transform.localRotation;
+            _player = GetComponent<Player>();
+        }
+
+        private void Start()
+        {
+            _origin = _player.Camera.localRotation;
         }
 
         private void OnEnable()
@@ -49,14 +53,14 @@ namespace Camera
         {
             _yLook += _yLookInput * lookSpeed.Value;
             _yLook = Mathf.Clamp(_yLook, lookLimits.Value.x, lookLimits.Value.y);
-            _transform.localRotation = Quaternion.AngleAxis(-_yLook, Vector3.right) * _origin;
+            _player.Camera.localRotation = Quaternion.AngleAxis(-_yLook, Vector3.right) * _origin;
         }
 
         private void LateUpdate()
         {
             if (target != null)
             {
-                _transform.forward = (target.position - transform.position).normalized;
+                _player.Camera.forward = (target.position - transform.position).normalized;
             }
         }
 

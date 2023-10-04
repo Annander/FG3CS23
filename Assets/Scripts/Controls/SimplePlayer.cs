@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Controls
 {
-    public class SimplePlayer : MonoBehaviour
+    public class SimplePlayer : Player
     {
         [SerializeField] private FloatVariable moveSpeed;
         [SerializeField] private FloatVariable turnSpeed;
@@ -19,13 +19,6 @@ namespace Controls
         private Vector3 _moveVector;
 
         private float _rotation;
-
-        private Transform _transform;
-
-        private void Awake()
-        {
-            _transform = transform;
-        }
 
         private void OnEnable()
         {
@@ -45,7 +38,7 @@ namespace Controls
         private void OnMove(InputAction.CallbackContext a)
         {
             var inputVector = a.ReadValue<Vector2>();
-            
+
             _moveVector.x = inputVector.x;
             _moveVector.y = 0;
             _moveVector.z = inputVector.y;
@@ -67,13 +60,13 @@ namespace Controls
 
         private void HandleMovement(float deltaTime)
         {
-            var transformedMoveVector = transform.TransformDirection(_moveVector.normalized) * moveSpeed.Value;
-            _transform.position += transformedMoveVector * deltaTime;
+            var transformedMoveVector = Root.TransformDirection(_moveVector.normalized) * moveSpeed.Value;
+            Root.position += transformedMoveVector * deltaTime;
         }
         
         private void HandleRotation(float deltaTime)
         {
-            transform.Rotate(Vector3.up, (_rotation * turnSpeed.Value) * deltaTime);
+            Root.Rotate(Vector3.up, (_rotation * turnSpeed.Value) * deltaTime);
         }
     }
 }

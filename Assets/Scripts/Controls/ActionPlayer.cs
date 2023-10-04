@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 using Utility.StateMachine;
 
 namespace Controls
 {
-    public class ActionPlayer : MonoBehaviour
+    public class ActionPlayer : Player
     {
         private enum ActionType
         {
@@ -12,22 +13,22 @@ namespace Controls
         
         [SerializeField] private Action[] actions;
 
-        private StackMachine actionStateMachine;
+        private StackMachine _actionStateMachine;
 
-        private void Awake()
+        private void Start()
         {
             foreach (var action in actions)
             {
-                action.Initialize(transform);
+                action.Initialize(Root);
             }
             
-            actionStateMachine = new StackMachine();
-            actionStateMachine.PushState(actions[(int)ActionType.Default]);
+            _actionStateMachine = new StackMachine();
+            _actionStateMachine.PushState(actions[(int)ActionType.Default]);
         }
 
         private void Update()
         {
-            actionStateMachine.Update();
+            _actionStateMachine.Update();
         }
     }
 }
