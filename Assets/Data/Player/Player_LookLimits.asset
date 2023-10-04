@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3298eac5b4e48989512a5c518633f52, type: 3}
   m_Name: Player_LookLimits
   m_EditorClassIdentifier: 
-  value: {x: 0, y: 0}
+  value: {x: -90, y: 90}

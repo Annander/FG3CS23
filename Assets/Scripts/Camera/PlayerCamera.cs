@@ -1,4 +1,3 @@
-using System;
 using Controls;
 using Systemics.Events;
 using Systemics.Variables;
@@ -24,7 +23,7 @@ namespace Camera
 
         private float _yLookInput;
         
-        private float _yLook = 0f;
+        private float _yLook;
 
         private Player _player;
 

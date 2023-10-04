@@ -16,6 +16,41 @@ namespace Controls.Actions
             Curve,
             Easing,
         }
+
+        [System.Serializable]
+        public struct Acceleration
+        {
+            public AccelerationType type;
+            public CurveVariable curve;
+            public EasingVariable easing;
+            public FloatVariable duration;
+            
+            private float _duration;
+
+            public void Reset() => _duration = 0f;
+
+            public void Update(float deltaTime)
+            {
+                _duration += deltaTime;
+                _duration = Mathf.Clamp(_duration, 0, duration.Value);
+            }
+
+            public float Value
+            {
+                get
+                {
+                    var normalizedAcceleration = _duration / duration.Value;
+                    
+                    if (type == AccelerationType.Curve)
+                        return curve.Value.Evaluate(normalizedAcceleration);
+                    
+                    if (type == AccelerationType.Easing)
+                        return Functions.GetEaseValue(easing.Value, normalizedAcceleration);
+
+                    return normalizedAcceleration;
+                }
+            }
+        }
         
         [Header("Events")]
         [SerializeField] private InputContextEvent move;
@@ -24,16 +59,15 @@ namespace Controls.Actions
         [Header("Data")]
         [SerializeField] private FloatVariable moveSpeed;
         [SerializeField] private FloatVariable turnSpeed;
+
+        [Header("Move Acceleration")] 
+        [SerializeField] private Acceleration moveAcceleration;
         
-        [Header("Acceleration")]
-        [SerializeField] private AccelerationType accelerationType;
-        [SerializeField] private CurveVariable accelerationCurve;
-        [SerializeField] private EasingVariable accelerationEasing;
-        [SerializeField] private FloatVariable accelerationTime;
+        [Header("Rotate Acceleration")]
+        [SerializeField] private Acceleration rotationAcceleration;
     
         private InputContextListener _moveListener;
         private Vector3 _moveVector;
-        private float _accelerationDuration;
         
         private InputContextListener _lookListener;
         private float _rotation;    
@@ -49,7 +83,8 @@ namespace Controls.Actions
             // Reset variables, since this is an asset on disk
             _hasEntered = false;
             _rotation = 0f;
-            _accelerationDuration = 0f;
+            moveAcceleration.Reset();
+            rotationAcceleration.Reset();
             _moveVector = Vector3.zero;
         }
 
@@ -92,7 +127,7 @@ namespace Controls.Actions
             if (phase == InputActionPhase.Started)
             {
                 // Started moving
-                _accelerationDuration = 0f;
+                moveAcceleration.Reset();
             }
             else if (phase == InputActionPhase.Canceled)
             {
@@ -109,6 +144,13 @@ namespace Controls.Actions
         
         private void OnLook(InputAction.CallbackContext a)
         {
+            var phase = a.phase;
+
+            if (phase == InputActionPhase.Started)
+            {
+                rotationAcceleration.Reset();
+            }
+            
             // Update X-axis (horizontal) rotation
             var inputVector = a.ReadValue<Vector2>();
             _rotation = inputVector.x;
@@ -117,18 +159,10 @@ namespace Controls.Actions
         private void HandleMovement(float deltaTime)
         {
             // Apply acceleration
-            _accelerationDuration += deltaTime;
-            _accelerationDuration = Mathf.Clamp(_accelerationDuration, 0, accelerationTime.Value);
+            moveAcceleration.Update(deltaTime);
 
             // Calculate frame speed
-            var normalizedAcceleration = _accelerationDuration / accelerationTime.Value;
-            var frameSpeed = moveSpeed.Value;
-
-            // Apply acceleration
-            if (accelerationType == AccelerationType.Curve)
-                frameSpeed *= accelerationCurve.Value.Evaluate(normalizedAcceleration);
-            else if (accelerationType == AccelerationType.Easing)
-                frameSpeed *= Functions.GetEaseValue(accelerationEasing.Value, normalizedAcceleration);
+            var frameSpeed = moveSpeed.Value * moveAcceleration.Value;
 
             // Apply vector in world space
             var transformedMoveVector = _transform.TransformDirection(_moveVector.normalized) * frameSpeed;
@@ -137,6 +171,12 @@ namespace Controls.Actions
         
         private void HandleRotation(float deltaTime)
         {
+            // Apply acceleration
+            //rotationAcceleration.Update(deltaTime);
+            
+            // Calculate frame rotation
+            //var frameRotation = turnSpeed.Value * rotationAcceleration.Value;
+            
             // Rotate player on world space up axis
             _transform.Rotate(Vector3.up, (_rotation * turnSpeed.Value) * deltaTime);
         }

@@ -4,13 +4,15 @@ using Utility.StateMachine.BaseStates;
 
 namespace Controls
 {
-    public class Action :  ScriptableState
+    public class Action : ScriptableState
     {
+        public void Initialize(Transform transform) => _transform = transform;
+        
         protected Transform _transform;
 
         public Transform Transform => _transform;
 
-        public void Initialize(Transform transform) => _transform = transform;
+        public virtual bool Evaluate() => true;
         
         public override void OnEnter()
         {

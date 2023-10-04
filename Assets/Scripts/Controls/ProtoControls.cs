@@ -10,18 +10,17 @@ namespace Controls
     {
         [SerializeField] private InputContextEvent move;
         [SerializeField] private InputContextEvent look;
+        [SerializeField] private InputContextEvent primary;
         
         private PlayerInput _playerInput;
         
         private void OnEnable()
         {
-            if (_playerInput == null)
-            {
-                _playerInput = GetComponent<PlayerInput>();
-            }
+            _playerInput ??= GetComponent<PlayerInput>();
             
             BindKey("Move", OnMove);
             BindKey("Look", OnLook);
+            BindKey("Primary", OnPrimary);
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -31,6 +30,7 @@ namespace Controls
         {
             BindKey("Move", OnMove, false);
             BindKey("Look", OnLook, false);
+            BindKey("Primary", OnPrimary, false);
             
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -40,13 +40,15 @@ namespace Controls
         
         private void OnLook(InputAction.CallbackContext context) => look.Raise(context);
 
+        private void OnPrimary(InputAction.CallbackContext context) => primary.Raise(context);
+
         private void BindKey(string action, Action<InputAction.CallbackContext> method, bool add = true)
         {
             if (add)
             {
                 _playerInput.actions[action].started += method;
                 _playerInput.actions[action].performed += method;
-                _playerInput.actions[action].canceled += method;                
+                _playerInput.actions[action].canceled += method;
             }
             else
             {
