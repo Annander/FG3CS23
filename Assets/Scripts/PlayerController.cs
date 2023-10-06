@@ -1,15 +1,22 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float turnSpeed;
+    
+    [Header("Looking")]
     [SerializeField] private float lookSpeed;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float groundingDistance;
     [SerializeField] private Vector2 lookLimits = new Vector2(-90f, 90f);
+    
+    [Header("Grounding")]
+    [SerializeField] private float groundingDistance;
+    
+    [Header("Jumping")]
+    [SerializeField] private float jumpForce;
     
     private PlayerInput _playerInput;
 
@@ -30,7 +37,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         
         _playerInput = GetComponent<PlayerInput>();
-        
+       
         _playerInput.actions["Move"].performed += OnMove;
         _playerInput.actions["Move"].started += OnMove;
         _playerInput.actions["Move"].canceled += OnMove;
@@ -66,7 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         // Store deltaTime
         var deltaTime = Time.deltaTime;
-        
+
         // Transform move vector and move player
         var transformedMoveVector = _transform.TransformDirection(_moveVector.normalized) * moveSpeed;
         _transform.position += transformedMoveVector * deltaTime;
@@ -92,6 +99,9 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         var position = _transform.position;
-        return Physics.Linecast(position + Vector3.up, position + (Vector3.down * groundingDistance));
+        return Physics.Linecast(
+            position + Vector3.up, 
+            position + (Vector3.down * groundingDistance)
+            );
     }
 }
