@@ -536,7 +536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1037610319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,7 +592,6 @@ GameObject:
   - component: {fileID: 1100145718}
   - component: {fileID: 1100145721}
   - component: {fileID: 1100145722}
-  - component: {fileID: 1100145723}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -614,6 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   turnSpeed: 50
+  headTransform: {fileID: 793140812}
   lookSpeed: 0.25
   lookLimits: {x: -90, y: 90}
   groundingDistance: 1
@@ -738,18 +738,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1100145723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1100145717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21367e05832cc4b4c9c10edd039490a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1391654593
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986933d8a5b1e8d41bc218b58773643e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGravity: {x: 0, y: 0, z: 0}
 --- !u!1 &1655632649
 GameObject:
   m_ObjectHideFlags: 0

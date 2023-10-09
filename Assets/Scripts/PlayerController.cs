@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float turnSpeed;
-    
-    [Header("Looking")]
+
+    [Header("Looking")] 
+    [SerializeField] private Transform headTransform;
     [SerializeField] private float lookSpeed;
     [SerializeField] private Vector2 lookLimits = new Vector2(-90f, 90f);
     
@@ -26,7 +27,6 @@ public class PlayerController : MonoBehaviour
     private float _yLook;
 
     private Quaternion _origin;
-    private Transform _cameraTransform;
     private Transform _transform;
 
     private Rigidbody _rigidbody;
@@ -48,9 +48,7 @@ public class PlayerController : MonoBehaviour
         
         _playerInput.actions["Primary"].started += OnPrimary;
 
-        _cameraTransform = GetComponentInChildren<UnityEngine.Camera>().transform;
-
-        _origin = _cameraTransform.localRotation;
+        _origin = headTransform.localRotation;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -58,8 +56,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnPrimary(InputAction.CallbackContext obj)
     {
-        if(IsGrounded())
+        if (IsGrounded())
+        {
             _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //CameraShake.Instance.Shake(.75f);
+            CameraDisplace.Instance.Displace(.75f, Vector2.down);
+        }
     }
 
     private void OnLook(InputAction.CallbackContext context)
@@ -84,7 +86,7 @@ public class PlayerController : MonoBehaviour
         // Clamp and rotate camera
         _yLook += _yLookInput * lookSpeed;
         _yLook = Mathf.Clamp(_yLook, lookLimits.x, lookLimits.y);
-        _cameraTransform.localRotation = Quaternion.AngleAxis(-_yLook, Vector3.right) * _origin;
+        headTransform.localRotation = Quaternion.AngleAxis(-_yLook, Vector3.right) * _origin;
     }
 
     private void OnMove(InputAction.CallbackContext context)
