@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    [FormerlySerializedAs("moveSpeed")]
     [Header("Movement")]
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
     [SerializeField] private float turnSpeed;
+
+    private float _currentMoveSpeed;
 
     [Header("Looking")] 
     [SerializeField] private Transform headTransform;
@@ -46,12 +51,31 @@ public class PlayerController : MonoBehaviour
         _playerInput.actions["Look"].started += OnLook;
         _playerInput.actions["Look"].canceled += OnLook;
         
+        _playerInput.actions["Sprint"].performed += OnSprint;
+        _playerInput.actions["Sprint"].started += OnSprint;
+        _playerInput.actions["Sprint"].canceled += OnSprint;
+        
         _playerInput.actions["Primary"].started += OnPrimary;
 
         _origin = headTransform.localRotation;
 
+        _currentMoveSpeed = walkSpeed;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void OnSprint(InputAction.CallbackContext obj)
+    {
+        if (obj.phase == InputActionPhase.Started)
+        {
+            _currentMoveSpeed = runSpeed;
+        }
+
+        if (obj.phase == InputActionPhase.Canceled)
+        {
+            _currentMoveSpeed = walkSpeed;
+        }
     }
 
     private void OnPrimary(InputAction.CallbackContext obj)
@@ -77,7 +101,7 @@ public class PlayerController : MonoBehaviour
         var deltaTime = Time.deltaTime;
 
         // Transform move vector and move player
-        var transformedMoveVector = _transform.TransformDirection(_moveVector.normalized) * moveSpeed;
+        var transformedMoveVector = _transform.TransformDirection(_moveVector.normalized) * _currentMoveSpeed;
         _transform.position += transformedMoveVector * deltaTime;
         
         // Rotate player root

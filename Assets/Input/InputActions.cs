@@ -53,6 +53,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""07be02f0-3b86-4246-a136-9407da338a53"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +174,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Primary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""569d3d59-5534-4431-9c79-9ac12e40c299"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f90811c-266f-451b-8bfd-3ad61767d89a"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -232,6 +263,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
         m_Gameplay_Primary = m_Gameplay.FindAction("Primary", throwIfNotFound: true);
+        m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
         // Driving
         m_Driving = asset.FindActionMap("Driving", throwIfNotFound: true);
         m_Driving_Move = m_Driving.FindAction("Move", throwIfNotFound: true);
@@ -302,6 +334,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Look;
     private readonly InputAction m_Gameplay_Primary;
+    private readonly InputAction m_Gameplay_Sprint;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -309,6 +342,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Look => m_Wrapper.m_Gameplay_Look;
         public InputAction @Primary => m_Wrapper.m_Gameplay_Primary;
+        public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -327,6 +361,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Primary.started += instance.OnPrimary;
             @Primary.performed += instance.OnPrimary;
             @Primary.canceled += instance.OnPrimary;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -340,6 +377,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Primary.started -= instance.OnPrimary;
             @Primary.performed -= instance.OnPrimary;
             @Primary.canceled -= instance.OnPrimary;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -454,6 +494,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnPrimary(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
     }
     public interface IDrivingActions
     {

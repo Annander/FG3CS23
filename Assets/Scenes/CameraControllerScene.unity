@@ -972,7 +972,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f63cfae678d6d4c88974ff9dde7923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  walkSpeed: 4
+  runSpeed: 40
   turnSpeed: 50
   headTransform: {fileID: 79936761}
   lookSpeed: 0.25
