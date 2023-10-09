@@ -59,8 +59,8 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
         {
             _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            //CameraShake.Instance.Shake(.75f);
-            CameraDisplace.Instance.Displace(.75f, Vector2.down);
+            CameraShake.Instance.Shake(.75f);
+            //CameraDisplace.Instance.Displace(.75f, Vector2.down);
         }
     }
 

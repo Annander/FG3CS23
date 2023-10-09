@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using Utility;
-using Random = UnityEngine.Random;
 
 public class CameraShake : UnitySingleton<CameraShake>
 {

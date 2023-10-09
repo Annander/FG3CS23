@@ -16,7 +16,10 @@ public class BoundingBoxVisualizer : MonoBehaviour
         if (Application.isPlaying)
         {
             var bounds = _collider.bounds;
-            Gizmos.DrawWireCube(bounds.center, bounds.extents * 2);            
+            Gizmos.DrawWireCube(bounds.center, bounds.extents * 2);
+            
+            Gizmos.DrawRay(bounds.min, Vector3.up);
+            Gizmos.DrawRay(bounds.max, Vector3.up);
         }
     }
 }
