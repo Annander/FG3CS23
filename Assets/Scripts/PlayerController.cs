@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
-[RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerInput), 
+    typeof(Rigidbody),
+    typeof(Grounder))]
 public class PlayerController : MonoBehaviour
 {
-    [FormerlySerializedAs("moveSpeed")]
     [Header("Movement")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
@@ -17,9 +17,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform headTransform;
     [SerializeField] private float lookSpeed;
     [SerializeField] private Vector2 lookLimits = new Vector2(-90f, 90f);
-    
-    [Header("Grounding")]
-    [SerializeField] private float groundingDistance;
     
     [Header("Jumping")]
     [SerializeField] private float jumpForce;
@@ -36,12 +33,17 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
+    private Grounder _grounder;
+
     private void Awake()
     {
         _transform = transform;
         _rigidbody = GetComponent<Rigidbody>();
         
         _playerInput = GetComponent<PlayerInput>();
+
+        _grounder = GetComponent<Grounder>();
+        _grounder.OnLanding += CameraShake.Instance.Shake;
        
         _playerInput.actions["Move"].performed += OnMove;
         _playerInput.actions["Move"].started += OnMove;
@@ -80,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnPrimary(InputAction.CallbackContext obj)
     {
-        if (IsGrounded())
+        if (_grounder.IsGrounded())
         {
             _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             CameraShake.Instance.Shake(.75f);
@@ -100,8 +102,15 @@ public class PlayerController : MonoBehaviour
         // Store deltaTime
         var deltaTime = Time.deltaTime;
 
-        // Transform move vector and move player
-        var transformedMoveVector = _transform.TransformDirection(_moveVector.normalized) * _currentMoveSpeed;
+        // Transform move vector and move player0
+        var transformedMoveVector = _transform.TransformDirection(_moveVector.normalized);
+        var forwardDot = Vector3.Dot(_transform.forward, transformedMoveVector);
+        
+        if(forwardDot >= .75f)
+            transformedMoveVector *= _currentMoveSpeed;
+        else
+            transformedMoveVector *= Mathf.Clamp(_currentMoveSpeed, 0, walkSpeed);
+        
         _transform.position += transformedMoveVector * deltaTime;
         
         // Rotate player root
@@ -120,14 +129,5 @@ public class PlayerController : MonoBehaviour
         _moveVector.x = inputVector.x;
         _moveVector.y = 0;
         _moveVector.z = inputVector.y;
-    }
-
-    private bool IsGrounded()
-    {
-        var position = _transform.position;
-        return Physics.Linecast(
-            position + Vector3.up, 
-            position + (Vector3.down * groundingDistance)
-            );
     }
 }

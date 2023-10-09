@@ -261,7 +261,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 50
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -901,6 +901,7 @@ GameObject:
   - component: {fileID: 1591382444}
   - component: {fileID: 1591382443}
   - component: {fileID: 1591382442}
+  - component: {fileID: 1591382445}
   - component: {fileID: 1591382441}
   - component: {fileID: 1591382440}
   m_Layer: 0
@@ -978,8 +979,7 @@ MonoBehaviour:
   headTransform: {fileID: 79936761}
   lookSpeed: 0.25
   lookLimits: {x: -90, y: 90}
-  groundingDistance: 1
-  jumpForce: 0
+  jumpForce: 50
 --- !u!114 &1591382443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,6 +1050,19 @@ Transform:
   - {fileID: 79936761}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1591382445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591382439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4982748a3cc9dd84db3877cfb2597873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundingDistance: 1
 --- !u!1 &1930164919
 GameObject:
   m_ObjectHideFlags: 0
