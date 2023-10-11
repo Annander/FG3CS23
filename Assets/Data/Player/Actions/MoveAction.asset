@@ -18,11 +18,48 @@ MonoBehaviour:
   turnSpeed: {fileID: 11400000, guid: 7fa873fd6051a4034a16fdff8780217a, type: 2}
   moveAcceleration:
     type: 0
-    curve: {fileID: 11400000, guid: fcefe10ab368a6a4b834e84ea3eb3a8d, type: 2}
-    easing: {fileID: 11400000, guid: f155ade23db59ef40a0ebcddddd3b92e, type: 2}
-    duration: {fileID: 11400000, guid: 9592afb98c52cb04d965453fbf1daf4d, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5003229
+        value: 0.6398182
+        inSlope: 1.1438129
+        outSlope: 1.1438129
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    easing: 9
+    duration: 2
   rotationAcceleration:
     type: 0
-    curve: {fileID: 11400000, guid: 3147746b12836a943b9538667c841d75, type: 2}
-    easing: {fileID: 11400000, guid: 50da7e84bdb2bb34fa13aca0ba7d41a0, type: 2}
-    duration: {fileID: 11400000, guid: e1cd5f579684a8748a1bf926dc6d38c3, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    easing: 0
+    duration: 0

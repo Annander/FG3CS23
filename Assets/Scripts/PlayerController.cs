@@ -1,17 +1,22 @@
+using Systemics.Events;
+using Systemics.Variables;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utility;
 
 [RequireComponent(typeof(PlayerInput), 
     typeof(Rigidbody),
     typeof(Grounder))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : UnitySingleton<PlayerController>
 {
     [Header("Movement")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float turnSpeed;
 
-    private float _currentMoveSpeed;
+    [SerializeField] private InputContextEvent move;
+
+    [SerializeField] private FloatVariable moveSpeed;
 
     [Header("Looking")] 
     [SerializeField] private Transform headTransform;
@@ -35,8 +40,10 @@ public class PlayerController : MonoBehaviour
 
     private Grounder _grounder;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        
         _transform = transform;
         _rigidbody = GetComponent<Rigidbody>();
         
@@ -61,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
         _origin = headTransform.localRotation;
 
-        _currentMoveSpeed = walkSpeed;
+        moveSpeed.Value = walkSpeed;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -71,12 +78,12 @@ public class PlayerController : MonoBehaviour
     {
         if (obj.phase == InputActionPhase.Started)
         {
-            _currentMoveSpeed = runSpeed;
+            moveSpeed.Value = runSpeed;
         }
 
         if (obj.phase == InputActionPhase.Canceled)
         {
-            _currentMoveSpeed = walkSpeed;
+            moveSpeed.Value = walkSpeed;
         }
     }
 
@@ -107,9 +114,9 @@ public class PlayerController : MonoBehaviour
         var forwardDot = Vector3.Dot(_transform.forward, transformedMoveVector);
         
         if(forwardDot >= .75f)
-            transformedMoveVector *= _currentMoveSpeed;
+            transformedMoveVector *= moveSpeed.Value;
         else
-            transformedMoveVector *= Mathf.Clamp(_currentMoveSpeed, 0, walkSpeed);
+            transformedMoveVector *= Mathf.Clamp(moveSpeed.Value, 0, walkSpeed);
         
         _transform.position += transformedMoveVector * deltaTime;
         
@@ -124,6 +131,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnMove(InputAction.CallbackContext context)
     {
+        if(move != null)
+            move.Raise(context);
+        
         var inputVector = context.ReadValue<Vector2>();
         
         _moveVector.x = inputVector.x;

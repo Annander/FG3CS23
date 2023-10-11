@@ -9,7 +9,11 @@ namespace Systemics
 
         private T _runtimeValue;
 
-        public T Value => _runtimeValue;
+        public T Value
+        {
+            get => _runtimeValue;
+            set => _runtimeValue = value;
+        }
 
         public virtual void OnBeforeSerialize()
         {

@@ -18,8 +18,8 @@ public class BoundingBoxVisualizer : MonoBehaviour
             var bounds = _collider.bounds;
             Gizmos.DrawWireCube(bounds.center, bounds.extents * 2);
             
-            Gizmos.DrawRay(bounds.min, Vector3.up);
-            Gizmos.DrawRay(bounds.max, Vector3.up);
+            DebugUtility.DrawGizmoCross(bounds.min, Color.magenta, .25f);
+            DebugUtility.DrawGizmoCross(bounds.max, Color.magenta, .25f);
         }
     }
 }

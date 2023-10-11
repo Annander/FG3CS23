@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class Thingamajing : MonoBehaviour
 {
-    [SerializeField] private new UnityEngine.Camera camera;
-
     [SerializeField] private float padding = .75f;
 
     private Collider _collider;
 
+    private UnityEngine.Camera _camera;
+    
     private void Awake()
     {
         _collider = GetComponent<Collider>();
@@ -21,29 +21,41 @@ public class Thingamajing : MonoBehaviour
         
         if (onScreen)
         {
-            Debug.DrawRay(transform.position, Vector3.up * 5f, Color.green);
+            DebugUtility.DrawCross(transform.position, Color.green);
         }
         else
         {
-            Debug.DrawRay(transform.position, Vector3.up * 5f, Color.red);
+            DebugUtility.DrawCross(transform.position, Color.red);
         }
     }
 
     private bool IsOnScreen(Vector3 worldPosition)
     {
-        var viewportPoint = camera.WorldToViewportPoint(worldPosition);
-
-        var lowerPadding = 1f - padding;
-
-        if (viewportPoint.z > 0f)
+        if (_camera == null)
         {
-            if (viewportPoint.x > lowerPadding &&
-                viewportPoint.x < padding &&
-                viewportPoint.y > lowerPadding &&
-                viewportPoint.y < padding)
-                return true;
+            _camera = UnityEngine.Camera.main;
         }
-        
+        else if (!_camera.isActiveAndEnabled)
+        {
+            _camera = UnityEngine.Camera.main;
+        }
+
+        if (_camera != null)
+        {
+            var viewportPoint = _camera.WorldToViewportPoint(worldPosition);
+
+            var lowerPadding = 1f - padding;
+
+            if (viewportPoint.z > 0f)
+            {
+                if (viewportPoint.x > lowerPadding &&
+                    viewportPoint.x < padding &&
+                    viewportPoint.y > lowerPadding &&
+                    viewportPoint.y < padding)
+                    return true;
+            }
+        }
+
         return false;
     }
     

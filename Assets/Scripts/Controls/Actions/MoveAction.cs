@@ -21,9 +21,9 @@ namespace Controls.Actions
         public struct Acceleration
         {
             public AccelerationType type;
-            public CurveVariable curve;
-            public EasingVariable easing;
-            public FloatVariable duration;
+            public AnimationCurve curve;
+            public EasingType easing;
+            public float duration;
             
             private float _duration;
 
@@ -32,22 +32,22 @@ namespace Controls.Actions
             public void Update(float deltaTime)
             {
                 _duration += deltaTime;
-                _duration = Mathf.Clamp(_duration, 0, duration.Value);
+                _duration = Mathf.Clamp(_duration, 0, duration);
             }
 
             public float Value
             {
                 get
                 {
-                    var normalizedAcceleration = _duration / duration.Value;
+                    var t = _duration / duration;
                     
                     if (type == AccelerationType.Curve)
-                        return curve.Value.Evaluate(normalizedAcceleration);
+                        return curve.Evaluate(t);
                     
                     if (type == AccelerationType.Easing)
-                        return Functions.GetEaseValue(easing.Value, normalizedAcceleration);
+                        return Functions.GetEaseValue(easing, t);
 
-                    return normalizedAcceleration;
+                    return t;
                 }
             }
         }
@@ -60,7 +60,7 @@ namespace Controls.Actions
         [SerializeField] private FloatVariable moveSpeed;
         [SerializeField] private FloatVariable turnSpeed;
 
-        [Header("Move Acceleration")] 
+        [Header("Move Acceleration")]
         [SerializeField] private Acceleration moveAcceleration;
         
         [Header("Rotate Acceleration")]

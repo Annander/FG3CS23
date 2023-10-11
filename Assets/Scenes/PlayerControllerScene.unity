@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 793140812}
   - component: {fileID: 793140814}
   - component: {fileID: 793140813}
+  - component: {fileID: 793140815}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -309,6 +310,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &793140815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793140811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7dc7845dd0d5694fb6e26af4eae42e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &898561610
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,6 +605,7 @@ GameObject:
   - component: {fileID: 1100145718}
   - component: {fileID: 1100145721}
   - component: {fileID: 1100145722}
+  - component: {fileID: 1100145723}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -614,10 +628,11 @@ MonoBehaviour:
   walkSpeed: 4
   runSpeed: 40
   turnSpeed: 50
+  move: {fileID: 11400000, guid: ceb572f5a5913448aa84e8bd12c91b0c, type: 2}
+  moveSpeed: {fileID: 11400000, guid: bc538893bcd46485f88d6588caf299e7, type: 2}
   headTransform: {fileID: 793140812}
   lookSpeed: 0.25
   lookLimits: {x: -90, y: 90}
-  groundingDistance: 1
   jumpForce: 0
 --- !u!114 &1100145719
 MonoBehaviour:
@@ -739,6 +754,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1100145723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100145717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4982748a3cc9dd84db3877cfb2597873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundingDistance: 0
 --- !u!1 &1391654593
 GameObject:
   m_ObjectHideFlags: 0
