@@ -50,7 +50,7 @@ public class PlayerController : UnitySingleton<PlayerController>
         _playerInput = GetComponent<PlayerInput>();
 
         _grounder = GetComponent<Grounder>();
-        _grounder.OnLanding += CameraShake.Instance.Shake;
+        //_grounder.OnLanding += CameraShake.Instance.Shake;
        
         _playerInput.actions["Move"].performed += OnMove;
         _playerInput.actions["Move"].started += OnMove;
