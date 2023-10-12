@@ -9,6 +9,7 @@ public class MovingPlatform : MonoBehaviour
 
     [SerializeField] private float duration;
 
+    private Vector3 _originPosition;
     private Vector3 _oldPosition;
     private Vector3 _velocity;
 
@@ -17,12 +18,16 @@ public class MovingPlatform : MonoBehaviour
 
     private float _time;
 
+    private Transform _transform;
+
     public Vector3 Velocity => _velocity;
 
     private void Awake()
     {
-        _from = from;
-        _to = to;
+        _transform = transform;
+        _originPosition = _transform.position;
+        _from = _originPosition + from;
+        _to = _originPosition + to;
     }
 
     private void Update()
@@ -31,38 +36,23 @@ public class MovingPlatform : MonoBehaviour
 
         var t = _time / duration;
         
-        _oldPosition = transform.localPosition;
+        _oldPosition = _transform.localPosition;
         
-        transform.localPosition = Vector3.Lerp(_from, _to, curve.Evaluate(t));
+        var newPosition = Vector3.Lerp(_from, _to, curve.Evaluate(t));
 
-        _velocity = transform.localPosition - _oldPosition;
-        
-        Debug.DrawRay(transform.position, _velocity, Color.red);
+        _transform.localPosition = newPosition;
+
+        _velocity = newPosition - _oldPosition;
 
         if (_time >= duration)
         {
             _time -= duration;
-            Flip();
-        }
-    }
-
-    private void Flip()
-    {
-        if (_from == from)
-        {
-            _from = to;
-            _to = from;
-        }
-        else
-        {
-            _from = from;
-            _to = to;
         }
     }
 
     private void OnDrawGizmosSelected()
     {
-        DebugUtility.DrawGizmoCross(transform.TransformPoint(from), Color.green);
-        DebugUtility.DrawGizmoCross(transform.TransformPoint(to), Color.red);
+        DebugUtility.DrawGizmoCross(_from, Color.green);
+        DebugUtility.DrawGizmoCross(_to, Color.red);
     }
 }

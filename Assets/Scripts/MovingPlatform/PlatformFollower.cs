@@ -35,15 +35,25 @@ public class PlatformFollower : MonoBehaviour
             layerMask
             );
 
+        MovingPlatform platformCandidate = null;
+        
         for (int i = 0; i < hitCount; i++)
         {
             var movingPlatform = _rayHits[i].collider.transform.root.GetComponentInChildren<MovingPlatform>();
             
             if(movingPlatform)
             {
-                _currentPlatform = movingPlatform;
-                return;
+                platformCandidate = movingPlatform;
             }
+        }
+
+        if (platformCandidate)
+        {
+            _currentPlatform = platformCandidate;
+        }
+        else
+        {
+            _currentPlatform = null;
         }
     }
 
